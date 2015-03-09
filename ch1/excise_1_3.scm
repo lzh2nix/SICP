@@ -1,0 +1,7 @@
+;sum of two largest of 3 = x + y + z -min(x,y,z)
+(define (min a b)
+				(if (< a b) a b))
+(define (min-of-three a b c)
+				(min (min a b) (min a c)))
+(define	(sum-of-two x y z)
+				(+ x y z (- (min-of-three x y z))))
