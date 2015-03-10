@@ -1,0 +1,4 @@
+#!/bin/bash
+rm *.bci  
+rm *.com  
+rm *.bin  
