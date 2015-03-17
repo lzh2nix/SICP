@@ -1,4 +1,4 @@
-;prime?(n) = n %[2 sqrt(n)] != 0
+;smallest-divisor of n = n % a = 0 while a ->(2 n-1)
 (define (smallest-divisor n)
 	(find-divisor n 2))
 
@@ -10,5 +10,5 @@
 (define (divides? n m)
 	(= (remainder n m) 0))
 
-(define (prime n)
-	(= (smallest-divisor? n) n))
+(define (prime? n)
+	(= (smallest-divisor n) n))
