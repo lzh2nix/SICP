@@ -24,7 +24,9 @@
 (define (sum-pi a b)
 	(sum pi-term a next-pi-term b))
 
-
-
+;f(a,b) = [f(a+dx/2) + f(a+dx+dx/2) + f(a+2dx+dx/2)+ ....]dx
+(define (integral f a b dx)
+	(define (add-dx x) (+ x dx))
+	(* (sum f (+ a (/ dx 2.0)) add-dx b) dx))
 
 
