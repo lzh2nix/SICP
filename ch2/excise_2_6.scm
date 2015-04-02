@@ -11,4 +11,9 @@
 (define three (lambda (f) (lambda (x) (f (f (f x))))))
 
 ;3 = one + two
-
+(define (add m n)
+	(lambda (f) (lambda (x) ((m f) ((n f) x)))))
+((one (lambda (x) (+ x 1))) 0)
+((two (lambda (x) (+ x 1))) 0)
+((three (lambda (x) (+ x 1))) 0)
+(((add one two) (lambda (x) (+ x 1))) 0)
