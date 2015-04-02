@@ -13,6 +13,7 @@
 ;3 = one + two
 (define (add m n)
 	(lambda (f) (lambda (x) ((m f) ((n f) x)))))
+;test for excise
 ((one (lambda (x) (+ x 1))) 0)
 ((two (lambda (x) (+ x 1))) 0)
 ((three (lambda (x) (+ x 1))) 0)
