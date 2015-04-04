@@ -19,7 +19,7 @@
 		(make-interval (min p1 p2 p3 p4) (max p1 p2 p3 p4))))
 
 ;[a, b]÷[c, d] = [min(a/c, a/d, b/c ,b/c), max(a/c, a/d, b/c ,b/c)]
-(define (mul-interval x y)
+(define (div-interval x y)
 	(let ((p1 (/ (lower-bound x) (lower-bound y)))
 			(p2 (/ (lower-bound x) (upper-bound y)))
 			(p3 (/ (upper-bound x) (lower-bound y)))
@@ -32,4 +32,4 @@
 (lower-bound range-2)
 (add-interval range-1 range-2)
 (mul-interval range-1 range-2)
-(mul-interval range-1 range-2)
+(div-interval range-1 range-2)
