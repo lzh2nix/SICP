@@ -18,6 +18,7 @@
 (define (percent i)
 	(/ (* (/ (- (upper-bound i) (low-bound i)) 2) 100) 100))
 
-(define range (make-center-percent 10 (/ 20 100)))
+(define range-a (make-center-percent 10 (/ 0.002 100)))
+(define range-b (make-center-percent 100 (/ 0.002 100)))
 (center range)
 (percent range)
