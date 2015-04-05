@@ -7,18 +7,22 @@
 (define (make-interval a b)
 	(cons a b))
 
-(define (make-center-percent center percentage)
+(define (make-center-percent center p)
+	(let ((width (* center p)))
 	(make-interval 
-		(- center percentage) 
-		(+ center percentage)))
+		(- center width) 
+		(+ center width))))
 
 (define (center i)
 	(/ (+ (low-bound i) (upper-bound i)) 2))
 
-(define (percent i)
-	(/ (* (/ (- (upper-bound i) (low-bound i)) 2) 100) 100))
+(define (width i)
+	(/ (- (upper-bound i) (low-bound i)) 2))
 
-(define range-a (make-center-percent 10 (/ 0.002 100)))
-(define range-b (make-center-percent 100 (/ 0.002 100)))
-(center range)
-(percent range)
+(define (percent-tolerance i)
+	(/ (width i) (center i)))
+
+(define range-a (make-center-percent 10 0.3))
+(define range-b (make-center-percent 100 0.2))
+(center range-a)
+(percent-tolerance range-a)
