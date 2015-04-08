@@ -4,6 +4,8 @@
 		(if (null? things)
 			(newline)
 			(iter (cdr things) (car things))))
-	(iter (cdr items) (car items)))
+	(if (null? items)
+		(newline)
+		(iter (cdr items) (car items))))
 
 (for-each (lambda (x) (newline) (display x)) (list 1 2 3 4 5 6 7))
