@@ -1,2 +1,1 @@
-#SICP
-excise for SICP
+#solutions  for SICP excises
