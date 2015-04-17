@@ -1,8 +1,6 @@
-(define (map p sequence)
-	(accumulate (lambda (x y) (cons (p x) y)) '() sequence))
-
-(define (append seq1 seq2)
-	(accumulate cons seq2 seq1))
-
-(define (length sequence)
-	(accumulate (lambda (x y) (+ 1 y)) 0 sequence))
+;	a0 + a1x + a2x^2 + a3x^3 + a4x^4
+;	= a0 + x(a1 + x(a2 + x(a3 + xa4)))
+(define (horner-eval x coefficient-sequence)
+	(accumulate (lambda (this-coeff higner-terms) (+ this-coeff (* x higner-terms)))
+					0
+					coefficient-sequence))
