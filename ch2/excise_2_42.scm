@@ -53,3 +53,15 @@
 							  (enumerate-interval 1 board-size)))
 					(queen-cols (- k 1))))))
 	(queen-cols board-size))
+
+;test code
+;n:	1	2	3	4	5	6	7	8	9		10
+;all:	1	0	0	2	10	4	40	92	352	724	
+(= (length (queens 1 )) 1)
+(= (length (queens 2 )) 0)
+(= (length (queens 3 )) 0)
+(= (length (queens 4 )) 2)
+(= (length (queens 5 )) 10)
+(= (length (queens 6 )) 4)
+(= (length (queens 7 )) 40)
+(= (length (queens 8 )) 92)
