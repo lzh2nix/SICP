@@ -68,29 +68,29 @@
 (define frame2 (make-frame (make-vect -1 1) (make-vect 1 0) (make-vect 0 1)))
 (define frame3 (make-frame (make-vect -1 1) (make-vect 1 1) (make-vect -1 1)))
 
-;out line top:t low:l right:r left:l
+;out line 
 (define out-line
-	(let ((tl (make-vect 0 1))
-			(tr (make-vect 1 1))
-			(ll (make-vect 0 0))
-			(lr (make-vect 1 0)))
-		(segment->painter (list (make-segment ll tl)
-										(make-segment tl tr)
-										(make-segment tr lr)
-										(make-segment lr ll)))))
+	(let ((top-left (make-vect 0 1))
+			(top-right (make-vect 1 1))
+			(bottom-left (make-vect 0 0))
+			(bottom-right (make-vect 1 0)))
+		(segment->painter (list (make-segment bottom-left top-left)
+										(make-segment top-left top-right)
+										(make-segment top-right bottom-right)
+										(make-segment bottom-right bottom-left)))))
 ;test
 (out-line frame1)
 (out-line frame2)
 (out-line frame3)
 
-;diagonal line top:t low:l right:r left:l
+;diagonal line 
 (define diagonal-line
-	 (let ((tl (make-vect 0 1))
-         (tr (make-vect 1 1))
-         (ll (make-vect 0 0))
-         (lr (make-vect 1 0)))
-      (segment->painter (list (make-segment ll tr)
-                              (make-segment lr tl)))))
+	 (let ((top-left (make-vect 0 1))
+         (top-right (make-vect 1 1))
+         (bottom-left (make-vect 0 0))
+         (bottom-right (make-vect 1 0)))
+      (segment->painter (list (make-segment bottom-left top-right)
+                              (make-segment bottom-right top-left)))))
 ;test
 (diagonal-line frame1)
 (diagonal-line frame2)
