@@ -61,3 +61,4 @@
 
 ;test
 (deriv '(x + (3 * (x + (y + 2)))) 'x)
+(deriv '(x + (x * (x + y + 1))) 'x)
