@@ -50,3 +50,19 @@
 (define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 0))
 
 (decode sample-message sample-tree)
+
+(define (adjoin-set x set)
+	(cond ((null? set) (list x))
+			((< (weight x) (weight (car set))) (cons x set))
+			(else
+				(cons (car set) (adjoin-set x (cdr set))))))
+
+(define (make-leaf-set pairs)
+	(if (null? pairs) 
+		'()
+		(let ((pair (car pairs)))
+			(adjoin-set (make-leaf (car pair) (cadr pair))
+				(make-leaf-set (cdr pairs))))))
+
+;test
+(make-leaf-set (list (list 'A 4) (list 'B 2) (list 'C 1) (list 'D 1)))
