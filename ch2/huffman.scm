@@ -66,3 +66,29 @@
 
 ;test
 (make-leaf-set (list (list 'A 4) (list 'B 2) (list 'C 1) (list 'D 1)))
+
+(define (member sys set)
+	(cond ((null? set) #f)
+			((eq? sys (car set)) #t)
+			(else
+				(member sys (cdr set)))))
+(define (ecode-symbol symbol tree)
+	(cond ((leaf? tree) '())
+			((member symbol (symbols (left-branch tree))) 
+				(cons '0 (ecode-symbol symbol (left-branch tree))))
+			((member symbol (symbols (right-branch tree)))
+				(cons '1 (ecode-symbol symbol (right-branch tree))))
+			(else
+				(error "bad symbol"))))
+;test
+(ecode-symbol 'a sample-tree)
+(ecode-symbol 'b sample-tree)
+(ecode-symbol 'd sample-tree)
+
+(define (ecode message tree)
+	(if (null? message)
+		'()
+		(append (ecode-symbol (car message) tree)
+			(ecode (cdr message) tree))))
+;test
+(ecode '(a d a b b c a) sample-tree)
