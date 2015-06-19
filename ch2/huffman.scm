@@ -92,3 +92,19 @@
 			(ecode (cdr message) tree))))
 ;test
 (ecode '(a d a b b c a) sample-tree)
+
+(define (generate-huffman-tree paris)
+	(successive-merge (make-leaf-set paris)))
+
+(define (successive-merge pairs)
+	(cond ((null? pairs) '())
+			((= (length pairs) 1) (car pairs))
+			(else
+				(successive-merge (cons (make-code-tree (cadr pairs) (car pairs))
+									(sublist pairs  2 (length pairs)))))))
+
+;test
+(define sample-tree1 (generate-huffman-tree (list (list 'A 4) (list 'D 1) (list 'C 1) (list 'B 2))))
+(ecode '(a d a b b c a) sample-tree1)
+(ecode '(a d a b b c a) sample-tree)
+
