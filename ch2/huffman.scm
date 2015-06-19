@@ -1,3 +1,10 @@
+(define (equal? a b)
+   (if (not (pair? a))
+         (eq? a b)
+      (and
+         (equal? (car a) (car b))
+         (equal? (cdr a) (cdr b)))))
+
 (define (make-leaf symbol weight)
 	(list 'leaf symbol weight))
 (define (leaf? object)
@@ -69,7 +76,7 @@
 
 (define (member sys set)
 	(cond ((null? set) #f)
-			((eq? sys (car set)) #t)
+			((equal? sys (car set)) #t)
 			(else
 				(member sys (cdr set)))))
 (define (ecode-symbol symbol tree)
@@ -79,7 +86,7 @@
 			((member symbol (symbols (right-branch tree)))
 				(cons '1 (ecode-symbol symbol (right-branch tree))))
 			(else
-				(error "bad symbol"))))
+				(error "bad symbol" (symbol)))))
 ;test
 (ecode-symbol 'a sample-tree)
 (ecode-symbol 'b sample-tree)
@@ -108,3 +115,19 @@
 (ecode '(a d a b b c a) sample-tree1)
 (ecode '(a d a b b c a) sample-tree)
 
+
+; excise 2.70
+(define song-tree (generate-huffman-tree (list (list '(A) 2) (list '(N A) 16) (list '(B O O M) 1) (list '(S H A) 3) (list '(G E T) 2)
+(list '(Y I P) 9) (list '(J O B) 2) (list '(W A H) 1))))
+
+(ecode (list '(a)) song-tree)
+
+(define song (list 
+	'(g e t) '(a) '(j o b)
+	'(s h a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a)
+	'(g e t) '(a) '(j o b)
+	'(s h a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a) '(n a)
+	'(w a h) '(y i p) '(y i p) '(y i p) '(y i p) '(y i p) '(y i p) '(y i p) '(y i p) '(y i p)
+	'(s h a) '(b o o m)))
+(ecode song  song-tree)
+(length (ecode song  song-tree))
