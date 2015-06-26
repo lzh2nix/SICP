@@ -21,7 +21,7 @@
 
 (define (apply-generic op . args)
 	(let ((type-tags (map type-tag args)))
-		(let ((proc (get op (car type-tags))))
+		(let ((proc (get op type-tags)))
 			(if proc
 				(apply proc (map (lambda (x) (cadr x)) args))
 				(error
@@ -52,6 +52,7 @@
 (div number-1 number-2)
 
 (define z1 (make-from-real-image 1 1))
+(define z3 (make-from-real-image 1 1))
 (define z2 (make-from-mag-ang (sqrt 2) .7853981633974483))
 
 (add z1 z2)

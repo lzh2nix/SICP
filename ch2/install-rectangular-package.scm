@@ -2,7 +2,7 @@
 ;;internal procedures
 (define (real-part z) (car z))
 (define (image-part z) (cdr z))
-(define (make-from-real-imag x y) (cons x y))
+(define (make-from-real-image x y) (cons x y))
 (define (magnitude z)
 	(sqrt (+ (square (real-part z)) (square (image-part z)))))
 (define (angle z)
@@ -12,10 +12,10 @@
 
 ;;interface to the rest of system
 (define (tag x) (attach-tag 'rectangular x))
-(put 'real-part 'rectangular real-part)
-(put 'image-part 'rectangular image-part)
-(put 'magnitude 'rectangular magnitude)
-(put 'angle 'rectangular angle)
-(put 'make-from-real-image 'rectangular (lambda (x y) (tag (make-from-real-imag x y))))
+(put 'real-part '(rectangular) real-part)
+(put 'image-part '(rectangular)image-part)
+(put 'magnitude '(rectangular) magnitude)
+(put 'angle '(rectangular) angle)
+(put 'make-from-real-image 'rectangular (lambda (x y) (tag (make-from-real-image x y))))
 (put 'make-from-mag-ang 'rectangular (lambda (r a) (tag (make-from-mag-ang r a))))
 'done)
