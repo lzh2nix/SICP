@@ -1,23 +1,22 @@
 (cf "type-tag.scm")
 (load "type-tag")
+(define *op-table* (make-hash-table))
 
-(define put 2d-put!)
-(define get 2d-get)
+(define (put op type proc)
+  (hash-table/put! *op-table* (list op type) proc))
+(define (get op type)
+  (hash-table/get *op-table* (list op type) #f))
 (cf "install-scheme-number-package.scm")
 (load "install-scheme-number-package")
-(install-scheme-number-package)
 
 (cf "install-polar-package.scm")
 (load "install-polar-package")
-(install-polar-package)
 
 (cf "install-rectangular-package.scm")
 (load "install-rectangular-package")
-(install-rectangular-package)
 
 (cf "install-complex-package.scm")
 (load "install-complex-package")
-(install-complex-package)
 
 (define (apply-generic op . args)
 	(let ((type-tags (map type-tag args)))
@@ -43,6 +42,12 @@
 (define (image-part z) (apply-generic 'image-part z))
 (define (magnitude z) (apply-generic 'magnitude z))
 (define (angle z) (apply-generic 'angle z))
+
+(install-scheme-number-package)
+(install-polar-package)
+(install-rectangular-package)
+(install-complex-package)
+
 ;test
 (define number-1 (make-scheme-number 1))
 (define number-2 (make-scheme-number 2))
