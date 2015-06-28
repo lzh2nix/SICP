@@ -6,6 +6,14 @@
   (hash-table/put! *op-table* (list op type) proc))
 (define (get op type)
   (hash-table/get *op-table* (list op type) #f))
+
+(define (equal? a b)
+   (if (not (pair? a))
+         (eq? a b)
+      (and
+         (equal? (car a) (car b))
+         (equal? (cdr a) (cdr b)))))
+
 (cf "install-scheme-number-package.scm")
 (load "install-scheme-number-package")
 
@@ -42,7 +50,7 @@
 (define (image-part z) (apply-generic 'image-part z))
 (define (magnitude z) (apply-generic 'magnitude z))
 (define (angle z) (apply-generic 'angle z))
-
+(define (equ? n1 n2) (apply-generic 'eq n1 n2))
 (install-scheme-number-package)
 (install-polar-package)
 (install-rectangular-package)
