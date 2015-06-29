@@ -19,4 +19,5 @@
 		(lambda (x y) (tag (make-from-real-image x y))))
 	(put 'eq '(polar polar) (lambda (z1 z2) (equal? z1 z2)))
 	(put 'eq '(polar rectangular) (lambda (z1 z2) (equal? z1 (make-from-real-image (car z2) (cdr z2)))))
+	(put 'zero '(polar) (lambda (z) (and (eq? 0 (magnitude z)) (eq? 0 (angle z)))))
 'done)

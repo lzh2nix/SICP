@@ -32,7 +32,7 @@
 			(if proc
 				(apply proc (map (lambda (x) (cadr x)) args))
 				(error
-					"NO method for these types ----" (list args))))))
+					"NO method for these types ----" (list type-tags))))))
 
 (define (add x y) (apply-generic 'add x y))
 (define (sub x y) (apply-generic 'sub x y))
@@ -51,6 +51,7 @@
 (define (magnitude z) (apply-generic 'magnitude z))
 (define (angle z) (apply-generic 'angle z))
 (define (equ? n1 n2) (apply-generic 'eq n1 n2))
+(define (zero? n) (apply-generic 'zero n))
 (install-scheme-number-package)
 (install-polar-package)
 (install-rectangular-package)
@@ -72,3 +73,9 @@
 (sub z1 z2)
 (mul z1 z2)
 (div z1 z2)
+
+(zero? number-1)
+(zero? number-1)
+
+(zero? (make-from-real-image 0 0))
+(zero? (make-from-mag-ang 0 0))

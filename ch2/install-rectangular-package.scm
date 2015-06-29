@@ -18,6 +18,7 @@
 	(put 'angle '(rectangular) angle)
 	(put 'eq '(rectangular rectangular) (lambda (n1 n2) (equal? n1 n2)))
 	(put 'eq '(rectangular polar) (lambda (n1 n2) (equal? n1 (make-from-mag-ang (car n2) (cdr n2)))))
+	(put 'zero '(rectangular) (lambda (z) (and (= 0 (real-part z)) (= 0 (image-part z)))))
 	(put 'make-from-real-image 'rectangular (lambda (x y) (tag (make-from-real-image x y))))
 	(put 'make-from-mag-ang 'rectangular (lambda (r a) (tag (make-from-mag-ang r a))))
 'done)
