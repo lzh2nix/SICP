@@ -1,6 +1,9 @@
 (define (install-scheme-number-package)
 	(define (tag x)
 		(attach-tag 'scheme-number x))
+	(define (scheme-number->complex n) 
+		(make-from-real-image (cadr n) 0))
+
 	(put 'add '(scheme-number scheme-number)(lambda (x y) (tag (+ x y))))
 	(put 'sub '(scheme-number scheme-number)(lambda (x y) (tag (- x y))))
 	(put 'mul '(scheme-number scheme-number)(lambda (x y) (tag (* x y))))
@@ -8,4 +11,6 @@
 	(put 'eq  '(scheme-number scheme-number) (lambda (n1 n2) (equal? n1 n2)))
 	(put 'make 'scheme-number (lambda (x) (tag x)))
 	(put 'zero '(scheme-number) (lambda (x) (= 0 x)))
+	(put 'exp '(scheme-number scheme-number) (lambda (x y) (tag (expt x y))))
+	(put-coercion 'scheme-number 'complex scheme-number->complex)
 'done)

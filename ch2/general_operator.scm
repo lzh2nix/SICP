@@ -7,6 +7,13 @@
 (define (get op type)
   (hash-table/get *op-table* (list op type) #f))
 
+
+(define *coercion-table* (make-hash-table))
+(define (put-coercion op type proc)
+	(hash-table/put! *coercion-table* (list op type) proc))
+(define (get-coercion op type)
+	(hash-table/get *coercion-table* (list op type) #f))
+
 (define (equal? a b)
    (if (not (pair? a))
          (eq? a b)
@@ -31,8 +38,18 @@
 		(let ((proc (get op type-tags)))
 			(if proc
 				(apply proc (map (lambda (x) (cadr x)) args))
-				(error
-					"NO method for these types ----" (list type-tags))))))
+				(if (= (length args) 2)
+					(let ((type1 (car type-tags))
+							(type2 (cadr type-tags))
+							(a1 (car args))
+							(a2 (cadr args)))
+						(let ((t1->t2 (get-coercion type1 type2))
+								(t2->t1 (get-coercion type2 type1)))
+							(cond (t1->t2 (apply-generic op (t1->t2 a1) a2))
+									(t2->t1 (apply-generic op a1 (t2->t1 a2)))
+									(else
+										(error "Not Method for these types ---" (list type-tags))))))
+					(error "No Method for these types ---" (list type-tags)))))))
 
 (define (add x y) (apply-generic 'add x y))
 (define (sub x y) (apply-generic 'sub x y))
@@ -52,6 +69,7 @@
 (define (angle z) (apply-generic 'angle z))
 (define (equ? n1 n2) (apply-generic 'eq n1 n2))
 (define (zero? n) (apply-generic 'zero n))
+(define (exp x y) (apply-generic 'exp x y))
 (install-scheme-number-package)
 (install-polar-package)
 (install-rectangular-package)
@@ -79,3 +97,6 @@
 
 (zero? (make-from-real-image 0 0))
 (zero? (make-from-mag-ang 0 0))
+
+(add z1 number-1)
+(add number-1 z1)
