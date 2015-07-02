@@ -31,5 +31,8 @@
       (lambda (x y) (tag (div-rat x y))))
   	(put 'make 'rational
       (lambda (n d) (tag (make-rat n d))))
-	(put-coercion 'rational 'complex (lambda (n) (make-from-real-image (/ (numer (cadr n)) (denom (cadr n))) 0)))
+	(put 'raise '(rational)
+		(lambda (n) (make-from-real-image (/ (numer n) (denom n)) 0)))
+	(put-coercion 'rational 'complex 
+		(lambda (n) (make-from-real-image (/ (numer (cadr n)) (denom (cadr n))) 0)))
 'done)

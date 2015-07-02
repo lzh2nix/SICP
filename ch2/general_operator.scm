@@ -86,6 +86,7 @@
 (define (angle . z) (apply-generic 'angle z))
 (define (equ?  . n) (apply-generic 'eq  n))
 (define (zero? . n) (apply-generic 'zero n))
+(define (raise . n) (apply-generic 'raise n))
 (define (exp x y) (apply-generic 'exp (list x y)))
 (install-scheme-number-package)
 (install-polar-package)
