@@ -10,7 +10,7 @@
 									(+ (image-part z1) (image-part z2))))
 	(define (sub-complex z1 z2)
 		(make-from-real-image (- (real-part z1) (real-part z2))
-									(= (image-part z1) (image-part z2))))
+									(- (image-part z1) (image-part z2))))
 	(define (mul-complex z1 z2)
 		(make-from-mag-ang (* (magnitude z1) (magnitude z2))
 								 (+ (angle z1) (angle z2))))
