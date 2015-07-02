@@ -33,6 +33,9 @@
 (cf "install-complex-package.scm")
 (load "install-complex-package")
 
+(cf "install-rational-package.scm")
+(load "install-rational-package")
+
 (define (add_2_obj type-tags args op)
 	(let ((type1 (car type-tags))
 			(type2 (cadr type-tags))
@@ -75,7 +78,8 @@
 	((get 'make-from-real-image 'complex) x y))
 (define (make-from-mag-ang r a)
 	((get 'make-from-mag-ang 'complex) r a))
-
+(define (make-rational n d)
+  	((get 'make 'rational) n d))
 (define (real-part . z) (apply-generic 'real-part z))
 (define (image-part . z) (apply-generic 'image-part z))
 (define (magnitude . z) (apply-generic 'magnitude z))
@@ -87,7 +91,7 @@
 (install-polar-package)
 (install-rectangular-package)
 (install-complex-package)
-
+(install-rational-package)
 ;test
 (define number-1 (make-scheme-number 1))
 (define number-2 (make-scheme-number 2))
@@ -105,6 +109,9 @@
 (mul z1 z2)
 (div z1 z2)
 
+(define r1 (make-rational 1 2))
+(define r2 (make-rational 1 2))
+(define r3 (make-rational 3 4))
 (zero? number-1)
 (zero? number-1)
 
@@ -116,4 +123,6 @@
 (add z1 z2 z3 z1 z2 z3)
 (mul z1 z2 z3 z1 z2 z3)
 (sub z1 z2 z3 z1 z2 z3)
-(add z1 z2 z3 z1 z2 z3 number-1 number-2 number-3)
+(add z1 z2 z3 z1 z2 z3 number-1 number-2)
+(add z1 z2 z3 z1 z2 z3 number-1 number-2 r1 r2 r3)
+

@@ -3,7 +3,8 @@
 		(attach-tag 'scheme-number x))
 	(define (scheme-number->complex n) 
 		(make-from-real-image (cadr n) 0))
-
+	(define (scheme-number->rational n)
+		(make-rational (cadr n) 1))
 	(put 'add '(scheme-number scheme-number)(lambda (x y) (tag (+ x y))))
 	(put 'sub '(scheme-number scheme-number)(lambda (x y) (tag (- x y))))
 	(put 'mul '(scheme-number scheme-number)(lambda (x y) (tag (* x y))))
@@ -13,4 +14,5 @@
 	(put 'zero '(scheme-number) (lambda (x) (= 0 x)))
 	(put 'exp '(scheme-number scheme-number) (lambda (x y) (tag (expt x y))))
 	(put-coercion 'scheme-number 'complex scheme-number->complex)
+	(put-coercion 'scheme-number 'rational scheme-number->rational)
 'done)
