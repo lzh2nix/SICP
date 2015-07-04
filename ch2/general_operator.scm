@@ -50,22 +50,41 @@
         				(t2->t1 (apply-generic op (list a1 (t2->t1 a2))))
         				(else
         					(display (list type-tags))))))))
-(define (add_n_obj args op)
+
+(hash-table/put! *op-table* 'scheme-number  1)
+(hash-table/put! *op-table* 'rational  2)
+(hash-table/put! *op-table* 'complex  3)
+(define (get-for-operator type)
+	(hash-table/get *op-table* type #f))
+
+(define (add-2-obj-for-84 type-tags args op)
+	(let ((a1 (car args))
+			(a2 (cadr args))
+			(type1 (car type-tags))
+			(type2 (cadr type-tags)))
+			(cond ((> (get-for-operator type1) (get-for-operator type2))
+						(apply-generic op (list a1 (raise a2))))
+					((< (get-for-operator type1) (get-for-operator type2))
+						(apply-generic op (list (raise a1) a2)))
+					(else
+						(error "add-2-obj-for-84:No Method for these types ---" (list type-tags))))))
+
+(define (add-n-obj args op)
 	(let ((op1 (car args))
 			(op2 (cadr args))
 			(last (cdr (cdr args))))
 		(if (null? last) 
 			(apply-generic op (list op1 op2))
-			(add_n_obj (cons (apply-generic op (list op1 op2)) last) op))))
+			(add-n-obj (cons (apply-generic op (list op1 op2)) last) op))))
 (define (apply-generic op args)
 	(let ((type-tags (map type-tag args)))
 		(let ((proc (get op type-tags)))
 			(if proc
 				(apply proc (map (lambda (x) (cadr x)) args))
-				(cond ((= (length args) 2) (add_2_obj type-tags args op))
-						((>= (length args) 3) (add_n_obj args op))
+				(cond ((= (length args) 2) (add-2-obj-for-84 type-tags args op))
+						((>= (length args) 3) (add-n-obj args op))
 						(else
-							(error "No Method for these types ---" (list type-tags))))))))
+							(error "apply-generic:No Method for these types ---" (list type-tags))))))))
 
 (define (add . n) (apply-generic 'add n))
 (define (sub . n) (apply-generic 'sub n))
