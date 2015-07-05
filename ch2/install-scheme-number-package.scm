@@ -16,4 +16,5 @@
 	(put-coercion 'scheme-number 'complex scheme-number->complex)
 	(put-coercion 'scheme-number 'rational scheme-number->rational)
 	(put 'raise '(scheme-number) (lambda (x) (make-rational x 1)))
+	(put 'drop '(scheme-number) (lambda (x) (tag x)))
 'done)

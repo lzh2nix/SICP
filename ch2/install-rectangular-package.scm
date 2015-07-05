@@ -9,7 +9,14 @@
 		(atan (image-part z) (real-part z)))
 	(define (make-from-mag-ang r a)
 		(cons (* r (cos a)) (* r (sin a))))
-
+	(define (project content)
+		(make-rational (* (real-part content) 1000000) 1000000))
+	(define (drop-from-rectangular content)
+		(let ((proj (project content))
+				(z (attach-tag 'complex (tag content))))
+			(if (equ? z (raise proj))
+				(drop proj)
+				z)))
 	;;interface to the rest of system
 	(define (tag x) (attach-tag 'rectangular x))
 	(put 'real-part '(rectangular) real-part)
@@ -21,4 +28,5 @@
 	(put 'zero '(rectangular) (lambda (z) (and (= 0 (real-part z)) (= 0 (image-part z)))))
 	(put 'make-from-real-image 'rectangular (lambda (x y) (tag (make-from-real-image x y))))
 	(put 'make-from-mag-ang 'rectangular (lambda (r a) (tag (make-from-mag-ang r a))))
+	(put 'drop '(rectangular) drop-from-rectangular)
 'done)

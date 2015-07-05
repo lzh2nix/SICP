@@ -31,5 +31,6 @@
 	(put 'magnitude '(complex) magnitude)
 	(put 'angle '(complex) angle)
 	(put 'eq '(complex complex) (lambda (z1 z2) (equ? z1 z2)))
+	(put 'drop '(complex) (lambda (z) (drop z)))
 	(put 'zero '(complex) (lambda (z) (zero? z)))
 'done)

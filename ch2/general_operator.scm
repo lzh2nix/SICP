@@ -16,7 +16,9 @@
 
 (define (equal? a b)
    (if (not (pair? a))
-         (eq? a b)
+   	(if (number? a)
+			(= a b)
+			(eq? a b))
       (and
          (equal? (car a) (car b))
          (equal? (cdr a) (cdr b)))))
@@ -106,6 +108,7 @@
 (define (equ?  . n) (apply-generic 'eq  n))
 (define (zero? . n) (apply-generic 'zero n))
 (define (raise . n) (apply-generic 'raise n))
+(define (drop . n) (apply-generic 'drop n))
 (define (exp x y) (apply-generic 'exp (list x y)))
 (install-scheme-number-package)
 (install-polar-package)
@@ -145,4 +148,9 @@
 (sub z1 z2 z3 z1 z2 z3)
 (add z1 z2 z3 z1 z2 z3 number-1 number-2)
 (add z1 z2 z3 z1 z2 z3 number-1 number-2 r1 r2 r3)
-
+(drop (make-rational 10 4))
+(drop (make-rational 10 2))
+(drop number-1)
+(drop (make-from-real-image 10 0))
+(drop (make-from-real-image 10.3 0))
+(drop (make-from-real-image 10.3 1))

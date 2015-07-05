@@ -5,6 +5,16 @@
   	(define (make-rat n d)
     	(let ((g (gcd n d)))
       	(cons (/ n g) (/ d g))))
+
+	(define (project content)
+		(make-scheme-number (round (/ (numer content) (denom content)))))
+
+	(define (drop-from-rational content)
+		(let ((proj (project content))
+				(r (tag content)))
+			(if (equ? r (raise proj))
+				(drop proj)
+				r)))
   	(define (add-rat x y)
     	(make-rat (+ (* (numer x) (denom y))
                 (* (numer y) (denom x)))
@@ -33,6 +43,10 @@
       (lambda (n d) (tag (make-rat n d))))
 	(put 'raise '(rational)
 		(lambda (n) (make-from-real-image (/ (numer n) (denom n)) 0)))
+	(put 'drop '(rational)
+		drop-from-rational)
+	(put 'eq  '(rational rational) (lambda (n1 n2) (equal? n1 n2)))
+	 (put 'zero '(rational) (lambda (x) (= 0 x)))
 	(put-coercion 'rational 'complex 
 		(lambda (n) (make-from-real-image (/ (numer (cadr n)) (denom (cadr n))) 0)))
 'done)
