@@ -10,6 +10,8 @@
 	(put 'mul '(scheme-number scheme-number)(lambda (x y) (tag (* x y))))
 	(put 'div '(scheme-number scheme-number)(lambda (x y) (tag (/ x y))))
 	(put 'eq  '(scheme-number scheme-number) (lambda (n1 n2) (equal? n1 n2)))
+	(put 'great '(scheme-number scheme-number) (lambda (n1 n2) (> n1 n2)))
+	(put 'less '(scheme-number scheme-number) (lambda (n1 n2) (< n1 n2)))
 	(put 'make 'scheme-number (lambda (x) (tag x)))
 	(put 'zero '(scheme-number) (lambda (x) (= 0 x)))
 	(put 'exp '(scheme-number scheme-number) (lambda (x y) (tag (expt x y))))

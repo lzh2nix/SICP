@@ -38,6 +38,9 @@
 (cf "install-rational-package.scm")
 (load "install-rational-package")
 
+(cf "install-polynomial-package.scm")
+(load "install-polynomial-package")
+
 (define (add_2_obj type-tags args op)
 	(let ((type1 (car type-tags))
 			(type2 (cadr type-tags))
@@ -101,12 +104,16 @@
 	((get 'make-from-mag-ang 'complex) r a))
 (define (make-rational n d)
   	((get 'make 'rational) n d))
+(define (make-polynomial var terms)
+	((get 'make 'polynomial) var terms))
 (define (real-part . z) (apply-generic 'real-part z))
 (define (image-part . z) (apply-generic 'image-part z))
 (define (magnitude . z) (apply-generic 'magnitude z))
 (define (angle . z) (apply-generic 'angle z))
 (define (equ?  . n) (apply-generic 'eq  n))
 (define (zero? . n) (apply-generic 'zero n))
+(define (great? . n) (apply-generic 'great n))
+(define (less? . n) (apply-generic 'less n))
 (define (raise . n) (apply-generic 'raise n))
 (define (drop . n) (apply-generic 'drop n))
 (define (exp x y) (apply-generic 'exp (list x y)))
@@ -115,6 +122,7 @@
 (install-rectangular-package)
 (install-complex-package)
 (install-rational-package)
+(install-polynomial-package)
 ;test
 (define number-1 (make-scheme-number 1))
 (define number-2 (make-scheme-number 2))
@@ -154,3 +162,17 @@
 (drop (make-from-real-image 10 0))
 (drop (make-from-real-image 10.3 0))
 (drop (make-from-real-image 10.3 1))
+
+;test for polynomial system
+(define t11 (make-term (make-scheme-number 2) (make-scheme-number 3)))
+(define t12 (make-term (make-scheme-number 1) (make-scheme-number 2)))
+(define t13 (make-term (make-scheme-number 0) (make-scheme-number 5)))
+(define t21 (make-term (make-scheme-number 2) (make-scheme-number 2)))
+
+(define term-list-1 (adjoin-term t11
+											(adjoin-term t12
+															 (adjoin-term t13 the-empty-term-list))))
+(define term-list-2 (adjoin-term t21 the-empty-term-list))
+(define poly-1 (make-polynomial 'x term-list-1))
+(define poly-2 (make-polynomial 'x term-list-1))
+(add poly-1 poly-2)
