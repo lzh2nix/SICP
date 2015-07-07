@@ -174,5 +174,5 @@
 															 (adjoin-term t13 the-empty-term-list))))
 (define term-list-2 (adjoin-term t21 the-empty-term-list))
 (define poly-1 (make-polynomial 'x term-list-1))
-(define poly-2 (make-polynomial 'x term-list-1))
+(define poly-2 (make-polynomial 'x term-list-2))
 (add poly-1 poly-2)
