@@ -21,7 +21,12 @@
 				        (mul-terms (term-list p1)
                                (term-list p2)))
 			(error "Poly not in same variable" (list p1 p2))))
-
+	(define (zero-poly poly)
+      (let ((term-list-1 (term-list poly)))
+			(if (empty-term-list? term-list-1)
+				#f
+				(and (zero? (coeff (first-term term-list-1)))
+                 (zero-poly (rest-term (term-list-1)))))))
 	(define (tag p)
 		(attach-tag 'polynomial p))
 	(put 'add '(polynomial polynomial)
@@ -30,6 +35,11 @@
 		(lambda (p1 p2) (tag (mul-poly p1 p2))))
 	(put 'make 'polynomial
 		(lambda (var terms) (tag (make-poly var terms))))
+	(put 'zero '(polynomial) 
+		(lambda (var-terms) 
+			(if (empty-term-list? (term-list var-terms))
+				#t
+				(zero-poly (term-list var-terms)))))
 'done)
 	
 (define (empty-term-list? L)

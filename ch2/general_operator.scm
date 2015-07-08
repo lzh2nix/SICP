@@ -175,5 +175,25 @@
 (define term-list-2 (adjoin-term t21 the-empty-term-list))
 (define poly-1 (make-polynomial 'x term-list-1))
 (define poly-2 (make-polynomial 'x term-list-2))
+(define poly-1 (make-polynomial 'x term-list-1))
 (add poly-1 poly-2)
 (mul-terms term-list-1 term-list-2)
+
+;test for zero polynomial
+(define t41 (make-term (make-scheme-number 2) (make-scheme-number 0)))
+(define t42 (make-term (make-scheme-number 1) (make-scheme-number 0)))
+(define t43 (make-term (make-scheme-number 0) (make-scheme-number 0)))
+(define term-list-4 (adjoin-term t41
+											(adjoin-term t42
+															 (adjoin-term t43 the-empty-term-list))))
+(define poly-4 (make-polynomial 'x term-list-4))
+
+(zero? poly-4)
+
+(define t31 (make-term (make-scheme-number 2) (make-scheme-number 2)))
+(define term-list-31 (adjoin-term t31 the-empty-term-list))
+(define term-31 (make-polynomial 'y term-list-31))
+(define t311 (make-term (make-scheme-number 2) term-31))
+(define term-list-31 (adjoin-term t311 the-empty-term-list))
+(define poly-3 (make-polynomial 'x term-list-31))
+(zero? poly-3)
