@@ -10,18 +10,18 @@
 
 (define *coercion-table* (make-hash-table))
 (define (put-coercion op type proc)
-	(hash-table/put! *coercion-table* (list op type) proc))
+  (hash-table/put! *coercion-table* (list op type) proc))
 (define (get-coercion op type)
-	(hash-table/get *coercion-table* (list op type) #f))
+  (hash-table/get *coercion-table* (list op type) #f))
 
 (define (equal? a b)
-   (if (not (pair? a))
-   	(if (number? a)
-			(= a b)
-			(eq? a b))
+  (if (not (pair? a))
+      (if (number? a)
+	  (= a b)
+	  (eq? a b))
       (and
-         (equal? (car a) (car b))
-         (equal? (cdr a) (cdr b)))))
+       (equal? (car a) (car b))
+       (equal? (cdr a) (cdr b)))))
 
 (cf "install-scheme-number-package.scm")
 (load "install-scheme-number-package")
@@ -42,54 +42,54 @@
 (load "install-polynomial-package")
 
 (define (add_2_obj type-tags args op)
-	(let ((type1 (car type-tags))
-			(type2 (cadr type-tags))
-        	(a1 (car args))
-        	(a2 (cadr args)))
-		(let ((t1->t2 (get-coercion type1 type2))
-       		(t2->t1 (get-coercion type2 type1))
-				(proc (get op type-tags)))
-			(if proc
-				(apply proc (map (lambda (x) (cadr x)) args))
-				(cond (t1->t2 (apply-generic op (list (t1->t2 a1) a2)))
-        				(t2->t1 (apply-generic op (list a1 (t2->t1 a2))))
-        				(else
-        					(display (list type-tags))))))))
+  (let ((type1 (car type-tags))
+	(type2 (cadr type-tags))
+	(a1 (car args))
+	(a2 (cadr args)))
+    (let ((t1->t2 (get-coercion type1 type2))
+	  (t2->t1 (get-coercion type2 type1))
+	  (proc (get op type-tags)))
+      (if proc
+	  (apply proc (map (lambda (x) (cadr x)) args))
+	  (cond (t1->t2 (apply-generic op (list (t1->t2 a1) a2)))
+		(t2->t1 (apply-generic op (list a1 (t2->t1 a2))))
+		(else
+		 (display (list type-tags))))))))
 
 (hash-table/put! *op-table* 'scheme-number  1)
 (hash-table/put! *op-table* 'rational  2)
 (hash-table/put! *op-table* 'complex  3)
 (define (get-for-operator type)
-	(hash-table/get *op-table* type #f))
+  (hash-table/get *op-table* type #f))
 
 (define (add-2-obj-for-84 type-tags args op)
-	(let ((a1 (car args))
-			(a2 (cadr args))
-			(type1 (car type-tags))
-			(type2 (cadr type-tags)))
-			(cond ((> (get-for-operator type1) (get-for-operator type2))
-						(apply-generic op (list a1 (raise a2))))
-					((< (get-for-operator type1) (get-for-operator type2))
-						(apply-generic op (list (raise a1) a2)))
-					(else
-						(error "add-2-obj-for-84:No Method for these types ---" (list type-tags))))))
+  (let ((a1 (car args))
+	(a2 (cadr args))
+	(type1 (car type-tags))
+	(type2 (cadr type-tags)))
+    (cond ((> (get-for-operator type1) (get-for-operator type2))
+	   (apply-generic op (list a1 (raise a2))))
+	  ((< (get-for-operator type1) (get-for-operator type2))
+	   (apply-generic op (list (raise a1) a2)))
+	  (else
+	   (error "add-2-obj-for-84:No Method for these types ---" (list type-tags))))))
 
 (define (add-n-obj args op)
-	(let ((op1 (car args))
-			(op2 (cadr args))
-			(last (cdr (cdr args))))
-		(if (null? last) 
-			(apply-generic op (list op1 op2))
-			(add-n-obj (cons (apply-generic op (list op1 op2)) last) op))))
+  (let ((op1 (car args))
+	(op2 (cadr args))
+	(last (cdr (cdr args))))
+    (if (null? last) 
+	(apply-generic op (list op1 op2))
+	(add-n-obj (cons (apply-generic op (list op1 op2)) last) op))))
 (define (apply-generic op args)
-	(let ((type-tags (map type-tag args)))
-		(let ((proc (get op type-tags)))
-			(if proc
-				(apply proc (map (lambda (x) (cadr x)) args))
-				(cond ((= (length args) 2) (add-2-obj-for-84 type-tags args op))
-						((>= (length args) 3) (add-n-obj args op))
-						(else
-							(error "apply-generic:No Method for these types ---" (list type-tags))))))))
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+	  (apply proc (map (lambda (x) (cadr x)) args))
+	  (cond ((= (length args) 2) (add-2-obj-for-84 type-tags args op))
+		((>= (length args) 3) (add-n-obj args op))
+		(else
+		 (error "apply-generic:No Method for these types ---" (list type-tags))))))))
 
 (define (add . n) (apply-generic 'add n))
 (define (sub . n) (apply-generic 'sub n))
@@ -97,15 +97,15 @@
 (define (div . n) (apply-generic 'div n))
 
 (define (make-scheme-number x)
-	((get 'make 'scheme-number) x))
+  ((get 'make 'scheme-number) x))
 (define (make-from-real-image x y)
-	((get 'make-from-real-image 'complex) x y))
+  ((get 'make-from-real-image 'complex) x y))
 (define (make-from-mag-ang r a)
-	((get 'make-from-mag-ang 'complex) r a))
+  ((get 'make-from-mag-ang 'complex) r a))
 (define (make-rational n d)
-  	((get 'make 'rational) n d))
+  ((get 'make 'rational) n d))
 (define (make-polynomial var terms)
-	((get 'make 'polynomial) var terms))
+  ((get 'make 'polynomial) var terms))
 (define (real-part . z) (apply-generic 'real-part z))
 (define (image-part . z) (apply-generic 'image-part z))
 (define (magnitude . z) (apply-generic 'magnitude z))
@@ -170,8 +170,8 @@
 (define t21 (make-term (make-scheme-number 2) (make-scheme-number 2)))
 
 (define term-list-1 (adjoin-term t11
-											(adjoin-term t12
-															 (adjoin-term t13 the-empty-term-list))))
+				 (adjoin-term t12
+					      (adjoin-term t13 the-empty-term-list))))
 (define term-list-2 (adjoin-term t21 the-empty-term-list))
 (define poly-1 (make-polynomial 'x term-list-1))
 (define poly-2 (make-polynomial 'x term-list-2))
@@ -184,8 +184,8 @@
 (define t42 (make-term (make-scheme-number 1) (make-scheme-number 0)))
 (define t43 (make-term (make-scheme-number 0) (make-scheme-number 0)))
 (define term-list-4 (adjoin-term t41
-											(adjoin-term t42
-															 (adjoin-term t43 the-empty-term-list))))
+				 (adjoin-term t42
+					      (adjoin-term t43 the-empty-term-list))))
 (define poly-4 (make-polynomial 'x term-list-4))
 
 (zero? poly-4)
