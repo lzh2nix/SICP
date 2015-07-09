@@ -3,18 +3,19 @@
     (cons variable term-list))
   (define (variable p) (car p))
   (define (term-list p) (cdr p))
-  
+
   (define (variable? s) (symbol? s))
   (define (same-variable? a b)
     (and (variable? a ) (variable? b) (eq? a b)))
-  
+
   (define (add-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
-	(make-poly (variable p1) 
-		   (add-terms (term-list p1) 
+	(make-poly (variable p1)
+		   (add-terms (term-list p1)
 			      (term-list p2)))
 	(error "Poly not in same variable" (list p1 p2))))
-
+  (define (sub-poly p1 p2)
+    (add-poly p1 (make-poly (variable p2)(inverse-term (term-list p2)))))
   (define (mul-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
 	(make-poly (variable p1)
@@ -31,12 +32,16 @@
     (attach-tag 'polynomial p))
   (put 'add '(polynomial polynomial)
        (lambda (p1 p2) (tag (add-poly p1 p2))))
+  (put 'inverse '(polynomial)
+       (lambda (p) (tag (inverse-term (term-list p)))))
+  (put 'sub '(polynomial polynomial)
+       (lambda (p1 p2) (tag (sub-poly p1 p2))))
   (put 'mul '(polynomial polynomial)
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
-  (put 'zero '(polynomial) 
-       (lambda (var-terms) 
+  (put 'zero '(polynomial)
+       (lambda (var-terms)
 	 (if (empty-term-list? (term-list var-terms))
 	     #t
 	     (zero-poly (term-list var-terms)))))
@@ -75,6 +80,12 @@
 	((empty-term-list? L2) L1)
 	(else
 	 (add-terms-hp L1 L2))))
+(define (inverse-term L)
+  (if (empty-term-list? L)
+      the-empty-term-list
+      (let ((t1 (first-term L)))
+        (adjoin-term (make-term (order t1) (inverse (coeff t1)))
+                     (inverse-term (rest-term L))))))
 (define (mul-terms-by-all-terms t1 L)
   (if (empty-term-list? L)
       the-empty-term-list

@@ -117,6 +117,7 @@
 (define (raise . n) (apply-generic 'raise n))
 (define (drop . n) (apply-generic 'drop n))
 (define (exp x y) (apply-generic 'exp (list x y)))
+(define (inverse . n) (apply-generic 'inverse n))
 (install-scheme-number-package)
 (install-polar-package)
 (install-rectangular-package)
@@ -197,3 +198,5 @@
 (define term-list-31 (adjoin-term t311 the-empty-term-list))
 (define poly-3 (make-polynomial 'x term-list-31))
 (zero? poly-3)
+(sub poly-1 poly-1)
+(sub poly-1 poly-2)
