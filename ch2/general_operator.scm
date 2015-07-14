@@ -200,3 +200,7 @@
 (zero? poly-3)
 (sub poly-1 poly-1)
 (sub poly-1 poly-2)
+
+(define term-list-4 (list (make-scheme-number 1) (make-scheme-number 2) (make-scheme-number 0) (make-scheme-number 3) (make-scheme-number (- 2)) (make-scheme-number (- 5))))
+
+(define poly-4 (make-polynomial 'x term-list-4))

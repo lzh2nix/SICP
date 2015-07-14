@@ -1,7 +1,7 @@
 (define (install-scheme-number-package)
   (define (tag x)
     (attach-tag 'scheme-number x))
-  (define (scheme-number->complex n) 
+  (define (scheme-number->complex n)
     (make-from-real-image (cadr n) 0))
   (define (scheme-number->rational n)
     (make-rational (cadr n) 1))
