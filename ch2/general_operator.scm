@@ -109,6 +109,8 @@
   ((get 'make 'rational) n d))
 (define (make-polynomial var terms)
   ((get 'make 'polynomial) var terms))
+(define (make-term order coeff)
+  ((get 'make-term 'polynomial) order coeff))
 (define (make-dense-poly var terms)
   ((get 'make 'dense-poly) var terms))
 (define (real-part . z) (apply-generic 'real-part z))
@@ -129,6 +131,7 @@
 (install-complex-package)
 (install-rational-package)
 (install-polynomial-package)
+(install-dens-poly-package)
 ;test
 (define number-1 (make-scheme-number 1))
 (define number-2 (make-scheme-number 2))
@@ -183,7 +186,6 @@
 (define poly-2 (make-polynomial 'x term-list-2))
 (define poly-1 (make-polynomial 'x term-list-1))
 (add poly-1 poly-2)
-(mul-terms term-list-1 term-list-2)
 
 ;test for zero polynomial
 (define t41 (make-term (make-scheme-number 2) (make-scheme-number 0)))
@@ -242,3 +244,19 @@
 (add poly-4 poly-5 poly-5 poly-4)
 (mul poly-4 poly-5 poly-6)
 (mul poly-4 poly-5 poly-5 poly-5)
+
+
+;tes for div polynomial
+(define t61 (make-term (make-scheme-number 5) (make-scheme-number 1)))
+(define t62 (make-term (make-scheme-number 0) (make-scheme-number (- 1))))
+
+(define t71 (make-term (make-scheme-number 2) (make-scheme-number 1)))
+(define t72 (make-term (make-scheme-number 0) (make-scheme-number (- 1))))
+
+(define term-list-8 (adjoin-term t61
+                                 (adjoin-term t62 the-empty-term-list))))
+(define term-list-9 (adjoin-term t71
+                                 (adjoin-term t72 the-empty-term-list))))
+
+ (div-terms term-list-9 term-list-8)
+ (div-terms term-list-8 term-list-9)
