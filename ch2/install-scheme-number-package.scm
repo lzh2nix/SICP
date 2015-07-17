@@ -5,6 +5,7 @@
     (make-from-real-image (cadr n) 0))
   (define (scheme-number->rational n)
     (make-rational (cadr n) 1))
+
   (put 'add '(scheme-number scheme-number)(lambda (x y) (tag (+ x y))))
   (put 'sub '(scheme-number scheme-number)(lambda (x y) (tag (- x y))))
   (put 'mul '(scheme-number scheme-number)(lambda (x y) (tag (* x y))))
@@ -14,6 +15,8 @@
   (put 'less '(scheme-number scheme-number) (lambda (n1 n2) (< n1 n2)))
   (put 'make 'scheme-number (lambda (x) (tag x)))
   (put 'zero '(scheme-number) (lambda (x) (= 0 x)))
+  (put 'round-scheme-number '(scheme-number) (lambda (a) (tag (round a))))
+  (put 'gcd-scheme-number '(scheme-number scheme-number) (lambda (x y) (tag (gcd x y))))
   (put 'exp '(scheme-number scheme-number) (lambda (x y) (tag (expt x y))))
   (put-coercion 'scheme-number 'complex scheme-number->complex)
   (put-coercion 'scheme-number 'rational scheme-number->rational)

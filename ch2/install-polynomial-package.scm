@@ -40,7 +40,6 @@
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
-  (put 'make-term 'polynomial make-term)
   (put 'zero '(polynomial)
        (lambda (var-terms)
 	 (if (empty-term-list? (term-list var-terms))

@@ -94,10 +94,23 @@
 		(else
 		 (error "apply-generic:No Method for these types ---" (list type-tags))))))))
 
-(define (add . n) (apply-generic 'add n))
-(define (sub . n) (apply-generic 'sub n))
-(define (mul . n) (apply-generic 'mul n))
-(define (div . n) (apply-generic 'div n))
+(define (add . n)
+  (if (number? (car n))
+      (apply + n)
+      (apply-generic 'add n)))
+(define (sub . n)
+  (if (number? (car n))
+      (apply - n)
+      (apply-generic 'sub n)))
+(define (mul . n)
+  (if (number? (car n))
+      (apply * n)
+      (apply-generic 'mul n)))
+
+(define (div . n)
+  (if (number? (car n))
+      (apply / n)
+      (apply-generic 'div n)))
 
 (define (make-scheme-number x)
   ((get 'make 'scheme-number) x))
@@ -109,8 +122,6 @@
   ((get 'make 'rational) n d))
 (define (make-polynomial var terms)
   ((get 'make 'polynomial) var terms))
-(define (make-term order coeff)
-  ((get 'make-term 'polynomial) order coeff))
 (define (make-dense-poly var terms)
   ((get 'make 'dense-poly) var terms))
 (define (real-part . z) (apply-generic 'real-part z))
@@ -119,6 +130,8 @@
 (define (angle . z) (apply-generic 'angle z))
 (define (equ?  . n) (apply-generic 'eq  n))
 (define (zero? . n) (apply-generic 'zero n))
+(define (gcd-scheme-number . n) (apply-generic 'gcd-scheme-number n))
+(define (round-scheme-number . n) (apply-generic 'round-scheme-number n))
 (define (great? . n) (apply-generic 'great n))
 (define (less? . n) (apply-generic 'less n))
 (define (raise . n) (apply-generic 'raise n))
@@ -254,9 +267,27 @@
 (define t72 (make-term (make-scheme-number 0) (make-scheme-number (- 1))))
 
 (define term-list-8 (adjoin-term t61
-                                 (adjoin-term t62 the-empty-term-list))))
+                                 (adjoin-term t62 the-empty-term-list)))
 (define term-list-9 (adjoin-term t71
-                                 (adjoin-term t72 the-empty-term-list))))
+                                 (adjoin-term t72 the-empty-term-list)))
 
  (div-terms term-list-9 term-list-8)
  (div-terms term-list-8 term-list-9)
+
+
+;test for
+(define t100 (make-term (make-scheme-number 2) (make-scheme-number 1)))
+(define t101 (make-term (make-scheme-number 0) (make-scheme-number 1)))
+
+(define t103 (make-term (make-scheme-number 3) (make-scheme-number 1)))
+(define t104 (make-term (make-scheme-number 0) (make-scheme-number 1)))
+
+(define term-list-10 (adjoin-term t100
+                                 (adjoin-term t101 the-empty-term-list)))
+(define term-list-11 (adjoin-term t103
+                                 (adjoin-term t104 the-empty-term-list)))
+
+(define p1 (make-polynomial 'x term-list-10))
+(define p2 (make-polynomial 'x term-list-11))
+
+(define rf (make-rational p1 p2))
