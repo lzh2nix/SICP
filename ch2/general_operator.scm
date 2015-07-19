@@ -279,7 +279,7 @@
  (div-terms term-list-8 term-list-9)
 
 
-;test for
+;test for 2.94
 (define t100 (make-term (make-scheme-number 2) (make-scheme-number 1)))
 (define t101 (make-term (make-scheme-number 0) (make-scheme-number 1)))
 
@@ -296,3 +296,32 @@
 
 (define rf (make-rational p2 p1))
 (add rf rf)
+
+
+;test for 2.95
+(define t105 (make-term (make-scheme-number 2) (make-scheme-number 1)))
+(define t106 (make-term (make-scheme-number 1) (make-scheme-number (- 2))))
+(define t107 (make-term (make-scheme-number 0) (make-scheme-number 1)))
+
+(define t108 (make-term (make-scheme-number 2) (make-scheme-number 11)))
+(define t109 (make-term (make-scheme-number 0) (make-scheme-number 7)))
+
+(define t110 (make-term (make-scheme-number 3) (make-scheme-number 11)))
+(define t111 (make-term (make-scheme-number 0) (make-scheme-number 5)))
+
+(define term-list-13 (adjoin-term t105
+                                 (adjoin-term t106
+                                              (adjoin-term t107 the-empty-term-list))))
+
+(define term-list-14 (adjoin-term t108
+                                 (adjoin-term t109 the-empty-term-list)))
+(define term-list-15 (adjoin-term t110
+                                 (adjoin-term t111 the-empty-term-list)))
+
+(define p3 (make-polynomial 'x term-list-13))
+(define p4 (make-polynomial 'x term-list-14))
+(define p5 (make-polynomial 'x term-list-15))
+
+(define q1 (mul p3 p4))
+(define q2 (mul p3 p5))
+(greatest-common-divisor q1 q2)
