@@ -111,7 +111,10 @@
   (if (number? (car n))
       (apply / n)
       (apply-generic 'div n)))
-
+(define (greatest-common-divisor . n)
+  (if (number? (car n))
+      (apply gcd n)
+      (apply-generic 'gcd n)))
 (define (make-scheme-number x)
   ((get 'make 'scheme-number) x))
 (define (make-from-real-image x y)
@@ -131,6 +134,7 @@
 (define (equ?  . n) (apply-generic 'eq  n))
 (define (zero? . n) (apply-generic 'zero n))
 (define (gcd-scheme-number . n) (apply-generic 'gcd-scheme-number n))
+(define (gcd-poly . n) (apply-generic 'gcd n))
 (define (round-scheme-number . n) (apply-generic 'round-scheme-number n))
 (define (great? . n) (apply-generic 'great n))
 (define (less? . n) (apply-generic 'less n))
@@ -290,4 +294,5 @@
 (define p1 (make-polynomial 'x term-list-10))
 (define p2 (make-polynomial 'x term-list-11))
 
-(define rf (make-rational p1 p2))
+(define rf (make-rational p2 p1))
+(add rf rf)

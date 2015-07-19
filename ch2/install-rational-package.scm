@@ -3,11 +3,8 @@
   (define (numer x) (car x))
   (define (denom x) (cdr x))
   (define (make-rat n d)
-    (cond ((number? n)
-           (let ((g (gcd n d)))
-             (cons (div n g) (div d g))))
-           ((eq? 'polynomial (type-tag n))
-            (cons n d))))
+    (let ((g (greatest-common-divisor n d)))
+      (cons (div n g) (div d g))))
 
   (define (project content)
     (make-scheme-number (round (div (numer content) (denom content)))))
