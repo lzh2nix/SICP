@@ -15,7 +15,8 @@
 (define y (list 'c 'd))
 (define z (append x y))
 (define (append! set a)
-  (set-cdr! (last-pair x) y))
+  (set-cdr! (last-pair x) y)
+  x)
 
 (define (last-pair set)
   (if (null? (cdr set))
@@ -83,3 +84,14 @@
 (count-pairs list-2)
 (define list-3 (make-cycle list-1))
 (count-pairs list-3)
+
+(define (cycle-test list)
+  (let ((first (car list)))
+    (define (cycle-test-iter rest)
+      (cond ((null? (cdr rest)) #f)
+            ((eq? first (car (cdr rest))) #t)
+            (else
+             (cycle-test-iter (cdr rest)))))
+  (cycle-test-iter list)))
+
+(cycle-test z)
