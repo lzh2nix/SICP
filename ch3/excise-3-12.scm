@@ -94,4 +94,6 @@
              (cycle-test-iter (cdr rest)))))
   (cycle-test-iter list)))
 
+;test
 (cycle-test z)
+(cycle-test (cons 'a (cons 'b (cons 'c '()))))
