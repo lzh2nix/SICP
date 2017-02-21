@@ -156,7 +156,6 @@
 (sqrt-of-root (* 10000000 10000000))
 
 ;; excise 1.8
-
 (define (improve-guess guess x)
   (/ (+ (/ x (square guess))
 	(* 2 guess))
@@ -165,6 +164,10 @@
 (improve-guess 1 8)
 ;Value: 10/3
 
+(define (good-enough? guess x)
+  (< (abs (- (improve-guess guess x)
+	     (improve-guess (improve-guess guess x) x)))
+     0.000001))
 (good-enough? 2 8)
 ;Value: #t
 (define (cube-root-iter guess x)
