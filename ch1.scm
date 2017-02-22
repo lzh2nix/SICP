@@ -184,19 +184,18 @@
 ;Value: 99.89734399999999
 (define (cube-of-root x)
   (define (improve-guess guess)
-  (/ (+ (/ x (square guess))
-	(* 2 guess))
-     3))
+    (/ (+ (/ x (square guess))
+	  (* 2 guess))
+       3))
   (define (good-enough? guess)
-  (< (abs (- (improve-guess guess)
-	     (improve-guess (improve-guess guess))))
-     0.0000000001))
-
+    (< (abs (- (improve-guess guess)
+	       (improve-guess (improve-guess guess))))
+       0.0000000001))
+  
   (define (cube-root-iter guess)
-  (if (good-enough? guess)
-      guess
+    (if (good-enough? guess)
+	guess
       (cube-root-iter (improve-guess guess))))
-
   (cube-root-iter 1.0))
 ;Value: cube-of-root
 
@@ -208,4 +207,104 @@
 
 (cube-of-root 125)
 ;Value: 5.00003794283566
+
+(define (factorial n)
+  (if (= 1 n)
+      1
+      (* n (factorial (- n 1)))))
+;Value: factorial
+
+(factorial 6)
+;Value: 720
+
+(define (factorial n)
+  (define (factorial-iter product count)
+    (if (> count n)
+	product
+	(factorial-iter (* product count) (+ count 1))))
+  (factorial-iter 1 1))
+;Value: factorial
+;Value: factorial
+(factorial 6)
+;Value: 720
+
+(define (count-change amount)
+
+  (define (cc amount kind-of-coins)
+    (cond ((= amount 0) 1)
+	  ((or (= kind-of-coins 0) (< amount 0)) 0)
+	  (else (+ (cc amount (- kind-of-coins 1))
+		   (cc (- amount (firs-demonination kind-of-coins)) kind-of-coins)))))
+  
+  (define (firs-demonination kind-of-coins)
+    (cond ((= 1 kind-of-coins) 1)
+	  ((= 2 kind-of-coins) 5)
+	  ((= 3 kind-of-coins) 10)
+	  ((= 4 kind-of-coins) 25)
+	  ((= 5 kind-of-coins) 50)))
+  (cc amount 5))
+;Value: count-change
+
+(count-change 100)
+;Value: 292
+
+(count-change 1000)
+;Value: 801451
+
+;;excise 1.11
+(define (f n)
+  (if (< n 3)
+      n
+      (+ (f (- n 1))
+	 (* 2 (f (- n 2)))
+	 (* 3 (f (- n 3))))))
+;Value: f
+
+(f 4)
+;Value: 11
+
+(f 10)
+;Value: 1892
+(f 100)
+
+(define (f n)
+  (define (f-iter a b c count)
+    (if (> count n)
+	a
+	(f-iter (+ a (* 2 b) (* 3 c)) a b (+ count 1))))
+  (if (< n 3)
+      n
+      (f-iter 2 1 0 3)))
+;Value: f
+
+(f 10)
+;Value: 1892
+
+(f 4)
+;Value: 11
+(f 100)
+;Value: 11937765839880230562825561449279733086
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
