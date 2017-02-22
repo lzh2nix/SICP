@@ -97,7 +97,6 @@
       x
       y))
 ;Value: test
-(test 0 (p))
 
 
 (define (good-enough? guess x)
@@ -226,8 +225,18 @@
 ;Value: factorial
 ;Value: factorial
 (factorial 6)
-;Value: 720
 
+;;
+;;还记得第一遍做这个的题目是的情况，一个人不断的思考这个怎么理解这里的内容
+;;现在第二次去看的时候才真正的理解了这里的内容，
+;; 1.将现金a换成除第一种硬币之外的所有的其硬币的不同方式数目 加上
+;; 2.件现金a-d换成所有种类的硬币的不同方式，d是第一种硬币的币值
+
+;; 想当初在这里理解了好久，所有的种类 = 有硬币A的数目 + 无硬币A的数目
+;;这里是很好理解的，刚开始的时候对第二条里面为啥要-d不是很好理解，现在
+;;想来这里已经确定因为A是肯定会有的，也就是每个组合里都会有A所以要减去一个A
+;;对于的币值
+;;
 (define (count-change amount)
 
   (define (cc amount kind-of-coins)
@@ -246,10 +255,8 @@
 ;Value: count-change
 
 (count-change 100)
-;Value: 292
 
-(count-change 1000)
-;Value: 801451
+(count-change 500)
 
 ;;excise 1.11
 (define (f n)
@@ -265,7 +272,6 @@
 
 (f 10)
 ;Value: 1892
-(f 100)
 
 (define (f n)
   (define (f-iter a b c count)
@@ -275,36 +281,11 @@
   (if (< n 3)
       n
       (f-iter 2 1 0 3)))
-;Value: f
 
 (f 10)
-;Value: 1892
 
 (f 4)
-;Value: 11
+
 (f 100)
-;Value: 11937765839880230562825561449279733086
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+;;这里比较一个f 100的求值过程就可以明显的感觉出来递归计算过程版本的要慢很多
